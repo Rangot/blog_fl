@@ -3,7 +3,7 @@ from datetime import datetime
 import re
 
 
-def slugify(s):
+def slugify(s=str):
     pattern = r'[^\w+]'
     return re.sub(pattern, '-', s)
 
@@ -42,7 +42,11 @@ class Tag(db.Model):
 
     def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
-        self.slug = slugify(self.name)
+        self.generate_slug()
+
+    def generate_slug(self):
+        if self.name:
+            self.slug = slugify(self.name)
 
     def __repr__(self):
-        return '<Tag id: {}, name: {}>'.format(self.id, self.name)
+        return '{}'.format(self.name)
